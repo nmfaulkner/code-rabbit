@@ -26,8 +26,8 @@ Application logic is split into modules. Each module represents a logical entity
 
 There were a few design decisions I went back on forth here:
 
-1. Should events be its own module
-2. Should each of the analysis/planning modules be within a parent issues module.
+1. Should "events" be its own module
+2. Should each of the analysis/planning modules be within a parent "issues" module.
    I ended up with the current structure because it most closely resembled the API path structure in the prompt.
 
 ### Controllers
