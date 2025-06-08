@@ -1,0 +1,412 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"DatabasePlanId": {
+				"allOf": [
+					{
+						"type": "string"
+					},
+					{
+						"properties": {
+							"__flavor": {
+								"type": "string",
+								"enum": [
+									"plan"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"__flavor"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"DatabaseIssueId": {
+				"allOf": [
+					{
+						"type": "string"
+					},
+					{
+						"properties": {
+							"__flavor": {
+								"type": "string",
+								"enum": [
+									"issue"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"__flavor"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"DatabaseIssuesPlan": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/DatabasePlanId"
+					},
+					"issueId": {
+						"$ref": "#/components/schemas/DatabaseIssueId"
+					},
+					"plan": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"issueId",
+					"plan",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Issue": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/DatabaseIssueId"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string"
+					},
+					"labels": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"assignedTo": {
+						"type": "string"
+					},
+					"confidence": {
+						"type": "number",
+						"format": "double"
+					},
+					"priority": {
+						"type": "string",
+						"enum": [
+							"low",
+							"medium",
+							"high"
+						]
+					},
+					"plan": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"title",
+					"description",
+					"author",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_DatabaseIssue.Exclude_keyofDatabaseIssue.id__": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"author",
+					"createdAt"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"CreateIssueRequest": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"author": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"description",
+					"author",
+					"createdAt",
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DatabaseAnalysisId": {
+				"allOf": [
+					{
+						"type": "string"
+					},
+					{
+						"properties": {
+							"__flavor": {
+								"type": "string",
+								"enum": [
+									"analysis"
+								],
+								"nullable": false
+							}
+						},
+						"required": [
+							"__flavor"
+						],
+						"type": "object"
+					}
+				]
+			},
+			"LLMAnalysisResponse": {
+				"properties": {
+					"labels": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"assignedTo": {
+						"type": "string"
+					},
+					"confidence": {
+						"type": "number",
+						"format": "double"
+					},
+					"priority": {
+						"type": "string",
+						"enum": [
+							"low",
+							"medium",
+							"high"
+						]
+					}
+				},
+				"required": [
+					"labels",
+					"assignedTo",
+					"confidence"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DatabaseIssuesAnalysis": {
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/DatabaseAnalysisId"
+					},
+					"analysis": {
+						"$ref": "#/components/schemas/LLMAnalysisResponse"
+					},
+					"issueId": {
+						"$ref": "#/components/schemas/DatabaseIssueId"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"analysis",
+					"issueId",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "code-rabbit",
+		"version": "1.0.0",
+		"description": "Node.js TypeScript Express Server",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/planning/{issueId}": {
+			"post": {
+				"operationId": "CreatePlan",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DatabaseIssuesPlan"
+								}
+							}
+						}
+					}
+				},
+				"description": "Create a plan for an issue",
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "issueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/issues": {
+			"get": {
+				"operationId": "GetIssues",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Issue"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all issues",
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/issues/{issueId}": {
+			"get": {
+				"operationId": "GetIssue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Issue"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get an issue by id",
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "issueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/events": {
+			"post": {
+				"operationId": "CreateEvent",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateIssueRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/analyze/{issueId}": {
+			"post": {
+				"operationId": "AnalyzeIssue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DatabaseIssuesAnalysis"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "issueId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
