@@ -46,7 +46,7 @@ I add a logger in src/utils/logger.ts. This is instantiated on each incoming req
 
 ### LLM Service
 
-I created a fake-llm-client.ts that implements the LLMService interface. I just used faker here to generate fake data for development and testing. My LLMService calls this client with try/catch logic to handle errors.
+I created a fake-llm-client.ts that implements the LLMService interface. I just used faker here to generate fake data for development and testing. My LLMService calls this client with try/catch logic to handle errors and time outs.
 
 ### Testing
 
